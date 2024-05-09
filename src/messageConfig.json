@@ -1,0 +1,14 @@
+{
+  "embedColorSuccess": "#00D26A",
+  "embedColorWarning": "#ff7005",
+  "embedColorError": "#FF0000",
+
+  "embedErrorMessage": "Je crois que quelque chose ne c'est pas bien passé",
+
+  "commandDevOnly": "Désolé, mais tu n'es pas le dev à ce que je sache",
+  "commandTestMode": "Désolé, mais tu n'es pas un testeur",
+  "commandPremiumOnly": "Désolé, mais tu ne m'aide pas finencièrement",
+
+  "userNoPermissions": "Askip tu n'as pas les permissions",
+  "botNoPermissions": "Malheureusement je n'ai pas les permissions pour faire cela"
+}
