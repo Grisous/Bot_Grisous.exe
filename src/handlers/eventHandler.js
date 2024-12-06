@@ -17,6 +17,6 @@ module.exports = (client) => {
         const eventFunction = require(eventFile);
         await eventFunction(client, arg);
       }
-    })
+    });
   }
-}
+};
