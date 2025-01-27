@@ -15,7 +15,7 @@ module.exports = async (client) => {
     for (const localCommand of localCommands) {
       const {data, deleted} = localCommand;
       const {
-        name : comandName,
+        name : commandName,
         description: comandDescription,
         options: commandOptions,
       } = data;
@@ -36,9 +36,9 @@ module.exports = async (client) => {
           );
         }
       } else if (existingCommand) {
-        if (commandComparing(existingCommand, commandOptions)) {
+        if (commandComparing(existingCommand, localCommand)) {
           await applicationCommands.edit(existingCommand.id, {
-            name: comandName,
+            name: commandName,
             description: comandDescription,
             options: commandOptions,
           });
@@ -48,7 +48,7 @@ module.exports = async (client) => {
         }
       } else {
         await applicationCommands.create({
-          name: comandName,
+          name: commandName,
           description: comandDescription,
           options: commandOptions,
         });

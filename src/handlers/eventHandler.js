@@ -11,7 +11,7 @@ module.exports = (client) => {
     eventName = eventFolder.replace(/\\/g, "/").split("/").pop();
 
     eventName === "validations" ? (eventName = "interactionCreate") : eventName;
-
+    
     client.on(eventName, async (arg) => {
       for (const eventFile of eventFiles) {
         const eventFunction = require(eventFile);
