@@ -7,13 +7,13 @@ const getLocalContextMenus = require("../../utils/getLocalContextMenus");
 
 module.exports = async (client) => {
   try {
-    const [localCommands, applicationContextMenu] = await Promise.all([
+    const [localContextMenus, applicationContextMenu] = await Promise.all([
       getLocalContextMenus(),
       getApplicationContextMenus(client, testServerId),
     ]);
 
-    for (const localCommand of localCommands) {
-      const {data, deleted} = localCommand;
+    for (const localContextMenu of localContextMenus) {
+      const {data, deleted} = localContextMenu;
       const {
         name : contextMenuName,
         type: contextMenuType,
@@ -23,33 +23,24 @@ module.exports = async (client) => {
         (cmd) => cmd.name === contextMenuName
       );
 
-      if (deleted) {
-        if (existingContextMenu) {
+      if (existingContextMenu) {
+        if (existingContextMenu.deleted) {
           await applicationContextMenu.delete(existingContextMenu.id);
           console.log(`[COMMAND REGISTERY] - Application command ${contextMenuName} has been deleted.`
             .red
           );
-        } else {
+          continue;
+        }
+      } else {
+        if (localContextMenu.deleted) {
           console.log(`[COMMAND REGISTERY] - Application command ${contextMenuName} has been skipped, since property "deleted" is set to "true".`
             .grey
           );
+          continue
         }
-      } else if (existingContextMenu) {
-        if (commandComparing(existingContextMenu, localCommand)) {
-          await applicationContextMenu.edit(existingContextMenu.id, {
-            name: contextMenuName,
-            description: contextMenuType,
-            options: commandOptions,
-          });
-          console.log(`[COMMAND REGISTERY] - Application command ${contextMenuName} has been edited.`
-            .yellow
-          );
-        }
-      } else {
         await applicationContextMenu.create({
           name: contextMenuName,
-          description: contextMenuType,
-          options: commandOptions,
+          type: contextMenuType
         });
         console.log(`[COMMAND REGISTERY] - Application command ${contextMenuName} has been registered.`
           .green
@@ -57,7 +48,7 @@ module.exports = async (client) => {
       }
     }
   } catch (error) {
-    console.log(`[ERROR] - An error occured inside the command registery:\n ${error}`
+    console.log(`[ERROR] - An error occured inside the Context Menu registery:\n ${error}`
       .bgRed
     );
   }
