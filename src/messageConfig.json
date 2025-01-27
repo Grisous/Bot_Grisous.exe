@@ -1,14 +1,25 @@
 {
+  "_commentaire":"setup des couleurs",
+
   "embedColorSuccess": "#00D26A",
   "embedColorWarning": "#ff7005",
   "embedColorError": "#FF0000",
 
+  "_commentaire":"setup des messages d'erreur du code",
+
   "embedErrorMessage": "Je crois que quelque chose ne c'est pas bien passé",
+
+  "_commentaire":"setup des messages d'autorisation des commandes",
 
   "commandDevOnly": "Désolé, mais tu n'es pas le dev à ce que je sache",
   "commandTestMode": "Désolé, mais tu n'es pas un testeur",
   "commandPremiumOnly": "Désolé, mais tu ne m'aide pas finencièrement",
 
+  "_commentaire":"setup des messages de permissions manquantes",
+
   "userNoPermissions": "Askip tu n'as pas les permissions",
-  "botNoPermissions": "Malheureusement je n'ai pas les permissions pour faire cela"
+  "botNoPermissions": "Malheureusement je n'ai pas les permissions pour faire cela",
+  "hasHigherRolePosition": "Dommage, l'utilisateur à le même rôle ou un rôle supérieur au tien",
+  "unableToInteractWithYourself": "Tu veux vraiment t'auto modérer ? Mais tu n'es pas normal toi",
+  "cannotUseButton": "Tu peux pas utiliser ce bouton désolé"
 }
