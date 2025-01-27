@@ -6,6 +6,9 @@
   "scripts": {
     "start": "pm2 start .\\src\\main.js --watch --no-vizion",
     "stop": "pm2 stop all --no-vizion && pm2 delete all --no-vizion",
+    "logs": "pm2 logs main",
+    "clearlogs": "pm2 flush", 
+    "list": "pm2 list",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
