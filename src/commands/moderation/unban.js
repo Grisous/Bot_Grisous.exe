@@ -18,7 +18,7 @@ module.exports = {
         .setRequired(true)
     )
     .toJSON(),
-  userPermissions: [PermissionFlagsBits.ManageMessages],
+  userPermissions: [PermissionFlagsBits.BanMembers],
   botPermissions: [PermissionFlagsBits.BanMembers],
 
   run: async (client, interaction) => {
