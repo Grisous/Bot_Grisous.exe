@@ -1,7 +1,6 @@
 const {
   SlashCommandBuilder,
   PermissionFlagsBits,
-  ChannelType,
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
@@ -9,7 +8,6 @@ const {
 } = require("discord.js");
 const moderationSchema = require("../../schemas/moderation");
 const mConfig = require("../../messageConfig.json");
-const { userPermissions } = require("../admin/moderatesystem");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -55,22 +53,20 @@ module.exports = {
         .setDescription(`${mConfig.hasHigherRolePosition}`);
       return interaction.reply({ embeds: [rEmbed], ephemeral: true });
     }
-
     const moderationButtons = new ActionRowBuilder().setComponents(
       new ButtonBuilder()
-        .setCustomId("banbtn")
+        .setCustomId("banBtn")
         .setLabel("Bannir du sreveur")
         .setStyle(ButtonStyle.Danger),
       new ButtonBuilder()
-        .setCustomId("kickbtn")
+        .setCustomId("kickBtn")
         .setStyle(ButtonStyle.Danger)
         .setLabel("kick"),
       new ButtonBuilder()
-        .setCustomId("cancelbtn")
+        .setCustomId("cancelBtn")
         .setStyle(ButtonStyle.Secondary)
         .setLabel("Annuler")
     );
-
     rEmbed
       .setAuthor({
         name: `${targetMember.user.username}`,

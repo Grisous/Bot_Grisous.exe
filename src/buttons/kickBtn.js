@@ -1,18 +1,18 @@
 const { PermissionFlagsBits, EmbedBuilder } = require("discord.js");
-const moderationSchema = require("../../schemas/moderation");
+const moderationSchema = require("../schemas/moderation");
 const mConfig = require("../messageConfig.json");
 const { userPermissions } = require("../commands/admin/moderatesystem");
 
 module.exports = {
   customId: "kickBtn",
-  userPermissions: [PermissionFlagsBits.KickMembers],
+  userPermissions: [],
   botPermissions: [PermissionFlagsBits.KickMembers],
 
   run: async (client, interaction) => {
-    const { message, channel, guildId, guild, member } = interaction;
+    const { message, channel, guildId, guild, user } = interaction;
 
     const embedAuthor = message.embeds[0].author;
-    const fetchMembers = await guild.members.fetchMembers({
+    const fetchMembers = await guild.members.fetch({
       query: embedAuthor.name,
       limit: 1,
     });
@@ -76,8 +76,8 @@ module.exports = {
     });
 
     let dataGD = await moderationSchema.findOne({ GuildID: guildId });
-    const { LogChannelId } = data;
-    const loggingChannel = guild.channel.cache.get(LogChannelId);
+    const { LogChannelID } = dataGD;
+    const loggingChannel = guild.channels.cache.get(LogChannelID);
 
     const lEmbed = new EmbedBuilder()
       .setColor(mConfig.embedColorCancel)
@@ -95,7 +95,7 @@ module.exports = {
         text: `${client.user.username} - Systeme de logs`,
       });
 
-    loggingChannel.send({ embeds: lEmbed });
+    loggingChannel.send({ embeds: [lEmbed] });
 
     rEmbed
       .setColor(mConfig.embedColorSuccess)

@@ -13,7 +13,7 @@ const mConfig = require("../messageConfig.json");
 module.exports = {
   data: new ContextMenuCommandBuilder()
     .setName("Moderer un utilisateur")
-    .setType(ApplicationCommandType.UserPermissions),
+    .setType(ApplicationCommandType.User),
   userPermissions: [PermissionFlagsBits.ManageMessages],
   botPermissions: [],
 
@@ -28,7 +28,7 @@ module.exports = {
       rEmbed
         .setColor(mConfig.embedColorError)
         .setDescription(
-          `\'❌\' Impossible de trouver le système de modération avancé. Utilisez \`/moderatesystem configure\` pour démarrer la configuration du système de modération avancé du serveur.`
+          `\`❌\` Impossible de trouver le système de modération avancé. Utilisez \`/moderatesystem configure\` pour démarrer la configuration du système de modération avancé du serveur.`
         );
       return interaction.reply({ embeds: [rEmbed], ephemeral: true });
     }
@@ -46,18 +46,17 @@ module.exports = {
         .setDescription(`${mConfig.hasHigherRolePosition}`);
       return interaction.reply({ embeds: [rEmbed], ephemeral: true });
     }
-
     const moderationButtons = new ActionRowBuilder().setComponents(
       new ButtonBuilder()
-        .setCustomId("banbtn")
+        .setCustomId("banBtn")
         .setLabel("Bannir du sreveur")
         .setStyle(ButtonStyle.Danger),
       new ButtonBuilder()
-        .setCustomId("kickbtn")
+        .setCustomId("kickBtn")
         .setStyle(ButtonStyle.Danger)
         .setLabel("kick"),
       new ButtonBuilder()
-        .setCustomId("cancelbtn")
+        .setCustomId("cancelBtn")
         .setStyle(ButtonStyle.Secondary)
         .setLabel("Annuler")
     );
@@ -68,7 +67,7 @@ module.exports = {
         iconURL: targetMember.user.displayAvatarURL({ dynamic: true }),
       })
       .setDescription(
-        `\`❔\` Quelle action veux-tu effectuer sur ${targetMembers.user.username} ?`
+        `\`❔\` Quelle action veux-tu effectuer sur ${targetMember.user.username} ?`
       );
     interaction.reply({ embeds: [rEmbed], components: [moderationButtons] });
   },
