@@ -15,7 +15,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("moderer")
     .setDescription("Modérer un membre du serveur.")
-    .addUserOptions((o) =>
+    .addUserOption((o) =>
       o.setName("user").setDescription("Le membre à modérer.").setRequired(true)
     )
     .toJSON(),
@@ -77,7 +77,7 @@ module.exports = {
         iconURL: targetMember.user.displayAvatarURL({ dynamic: true }),
       })
       .setDescription(
-        `\`❔\` Quelle action veux-tu effectuer sur ${targetMembers.user.username} ?`
+        `\`❔\` Quelle action veux-tu effectuer sur ${targetMember.user.username} ?`
       );
     interaction.reply({ embeds: [rEmbed], components: [moderationButtons] });
   },

@@ -4,6 +4,7 @@
   "embedColorSuccess": "#00D26A",
   "embedColorWarning": "#ff7005",
   "embedColorError": "#FF0000",
+  "embedColorCancel": "#FFFFFF",
 
   "_commentaire":"setup des messages d'erreur du code",
 

@@ -11,7 +11,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("unban")
     .setDescription("Annuler le bannisement un membre du serveur.")
-    .addStringOptions((o) =>
+    .addStringOption((o) =>
       o
         .setName("user_id")
         .setDescription("L'id du membre à débannir.")
