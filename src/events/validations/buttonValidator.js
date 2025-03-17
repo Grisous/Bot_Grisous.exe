@@ -11,7 +11,7 @@ module.exports = async (client, interaction) => {
 
   try {
     const buttonObject = buttons.find(
-      (cmd) => cmd.data.name === interaction.commandName
+      (btn) => btn.customId === interaction.customId
     );
     if (!buttonObject) return;
 

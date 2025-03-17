@@ -90,7 +90,7 @@ module.exports = {
         `\`💡\` Pour révoquer le bannisement utilisez : \`/unban ${targetMember.user.id}\``
       )
       .addFields(
-        { name: "Banni par", value: `<@${user.id}>`, inline },
+        { name: "Banni par", value: `<@${user.id}>`, inline: true },
         { name: "Raison", value: `${reason}`, inline: true }
       )
       .setFooter({
