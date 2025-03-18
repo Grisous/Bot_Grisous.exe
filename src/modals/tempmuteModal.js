@@ -44,6 +44,7 @@ module.exports = {
               duration += value * 60 * 1000;
           }
         }
+        return duration;
       }
 
       const muteDuration = parseDuration(muteTime);
@@ -63,7 +64,7 @@ module.exports = {
 
       targetMember.timeout({
         timeout: muteDuration,
-        reason: `EXPULSION TEMPORAIRE : ${reason}`,
+        reason: `EXPULSION TEMPORAIRE : ${muteReason}`,
       });
 
       let dataGD = await moderationSchema.findOne({ GuildID: guildId });
@@ -84,7 +85,7 @@ module.exports = {
             inline: true,
           },
           { name: "Fin de l'exclusion", value: `<t:${muteDuration}:R>` },
-          { name: "Raison", value: `${reason}`, inline: true }
+          { name: "Raison", value: `${muteReason}`, inline: true }
         )
         .setFooter({
           iconURL: client.user.displayAvatarURL({ dynamic: true }),

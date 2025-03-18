@@ -7,14 +7,14 @@ const {
 } = require("discord.js");
 
 module.exports = {
-  customId: "tempMuteBtn",
-  userPermissions: [PermissionFlagsBits.MODERATE_MEMBERS],
-  botPermissions: [PermissionFlagsBits.MODERATE_MEMBERS],
+  customId: "tempbanBtn",
+  userPermissions: [PermissionFlagsBits.BanMembers],
+  botPermissions: [PermissionFlagsBits.BanMembers],
 
   run: async (client, interaction) => {
     try {
-      const tempBanModal = new ModalBuilder()
-        .setTitle("Temp Ban - Bannir temporairement")
+      const tempbanModal = new ModalBuilder()
+        .setTitle("Temp Ban")
         .setCustomId("tempbanMdl")
         .setComponents(
           new ActionRowBuilder().setComponents(
@@ -35,7 +35,7 @@ module.exports = {
           )
         );
 
-      return await interaction.showModal(tempBanModal);
+      return await interaction.showModal(tempbanModal);
     } catch (error) {
       console.error(error);
       await interaction.reply({

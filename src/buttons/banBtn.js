@@ -17,6 +17,8 @@ module.exports = {
     });
     const targetMember = fetchMembers.first();
 
+    await interaction.deferReply({ ephemeral: true });
+
     const rEmbed = new EmbedBuilder()
       .setColor(mConfig.embedColorWarning)
       .setFooter({ text: `${client.user.username} - modérer l'utilisateur` })
@@ -31,7 +33,7 @@ module.exports = {
         \n\`💡\` Vous pouvez annuler l'action de bannissement en répondant \`annuler\` (pas sensible au majuscules)`
       );
 
-    message.edit({ embeds: [rEmbed], components: [] });
+    interaction.editReply({ embeds: [rEmbed], components: [] });
 
     const filter = (m) => m.author.id === user.id;
     const reasonCollector = await channel
@@ -42,7 +44,7 @@ module.exports = {
           rEmbed
             .setColor(mConfig.embedColorCancel)
             .setDescription("`❌` Action de modération annulée.");
-          message.edit({ embeds: [rEmbed] });
+          interaction.editReply({ embeds: [rEmbed] });
           setTimeout(() => {
             message.delete();
           }, 10000);
@@ -54,7 +56,7 @@ module.exports = {
         rEmbed
           .setColor(mConfig.embedColorCancel)
           .setDescription("`❌` Action de modération annulée.");
-        message.edit({ embeds: [rEmbed] });
+        interaction.editReply({ embeds: [rEmbed] });
         setTimeout(() => {
           message.delete();
         }, 10000);
@@ -105,7 +107,7 @@ module.exports = {
         `\`✅\` ${targetMember.user.username} à été banni avec succès.`
       );
 
-    message.edit({ embeds: [rEmbed] });
+    interaction.editReply({ embeds: [rEmbed] });
     setTimeout(() => {
       message.delete();
     }, 10000);

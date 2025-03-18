@@ -8,7 +8,7 @@ module.exports = {
   botPermissions: [PermissionFlagsBits.BanMembers],
 
   run: async (client, interaction) => {
-    const { message, channel, guildId, guild, user, fields } = interaction;
+    const { message, guildId, guild, user, fields } = interaction;
 
     try {
       const embedAuthor = message.embeds[0].author;
@@ -29,6 +29,7 @@ module.exports = {
         while ((match = regex.exec(durationString))) {
           const value = parseInt(match[1]);
           const unit = match[2];
+          console.log("unit" + unit);
 
           switch (unit) {
             case "h":
@@ -40,15 +41,23 @@ module.exports = {
             case "m":
               duration += value * 30 * 24 * 60 * 60 * 1000;
               break;
-            default:
+            case null:
               duration += value * 60 * 1000;
           }
         }
+        if (duration === 0) throw "Bah jsp j'passe pas dans le while";
+        return duration;
       }
 
       const banDuration = parseDuration(banTime);
 
       const banEndTime = Math.floor((Date.now() + banDuration) / 1000);
+      console.log(
+        `${banTime}\nparse : ${parseDuration(
+          banTime
+        )} \n end time : ${Math.floor((Date.now() + banDuration) / 1000)}`
+      );
+      await interaction.deferReply({ ephemeral: false });
 
       const bEmbed = new EmbedBuilder()
         .setAuthor({
@@ -59,10 +68,10 @@ module.exports = {
           `${targetMember.user.username} à été banni jusqu'à <t:${banEndTime}:R> pour la raison suivante : ${banReason}`
         );
 
-      await interaction.deferReply({ ephemeral: false });
+      await interaction.editReply({ embeds: [bEmbed], components: [] });
 
       targetMember.ban({
-        reason: `BAN TEMPORAIRE : ${reason}`,
+        reason: `BAN TEMPORAIRE : ${banReason}`,
         deleteMessageSeconds: 604800,
       });
 
@@ -82,12 +91,6 @@ module.exports = {
           await guild.members.unban(targetMember.id);
         }, remainingBanDuration);
       }
-
-      const followUpMessage = await interaction.followUp({
-        embeds: [bEmbed],
-      });
-
-      const followUpMessageId = followUpMessage.id;
 
       let dataGD = await moderationSchema.findOne({ GuildID: guildId });
       const { LogChannelID } = dataGD;
@@ -110,7 +113,7 @@ module.exports = {
             inline: true,
           },
           { name: "Fin du ban", value: `<t:${banDuration}:R>` },
-          { name: "Raison", value: `${reason}`, inline: true }
+          { name: "Raison", value: `${banReason}`, inline: true }
         )
         .setFooter({
           iconURL: client.user.displayAvatarURL({ dynamic: true }),
@@ -119,13 +122,13 @@ module.exports = {
 
       loggingChannel.send({ embeds: [lEmbed] });
 
-      rEmbed
+      lEmbed
         .setColor(mConfig.embedColorSuccess)
         .setDescription(
           `\`✅\` ${targetMember.user.username} à été banni temporairement avec succès.`
         );
 
-      message.edit({ embeds: [rEmbed] });
+      interaction.editReply({ embeds: [lEmbed] });
       setTimeout(() => {
         message.delete();
       }, 10000);

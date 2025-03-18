@@ -7,7 +7,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
-  customId: "tempMuteBtn",
+  customId: "tempmuteBtn",
   userPermissions: [PermissionFlagsBits.ModerateMembers],
   botPermissions: [PermissionFlagsBits.ModerateMembers],
 
