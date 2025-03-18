@@ -46,7 +46,7 @@ module.exports = {
           message.edit({ embeds: [rEmbed] });
           setTimeout(() => {
             message.delete();
-          }, 2000);
+          }, 10000);
           return;
         }
         return reason;
@@ -58,7 +58,7 @@ module.exports = {
         message.edit({ embeds: [rEmbed] });
         setTimeout(() => {
           message.delete();
-        }, 2000);
+        }, 10000);
         return;
       });
     const reasonObj = reasonCollector?.first();
@@ -106,6 +106,6 @@ module.exports = {
     message.edit({ embeds: [rEmbed] });
     setTimeout(() => {
       message.delete();
-    }, 2000);
+    }, 10000);
   },
 };
