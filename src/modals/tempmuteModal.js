@@ -1,8 +1,4 @@
-const {
-  PermissionFlagsBits,
-  EmbedBuilder,
-  InteractionResponse,
-} = require("discord.js");
+const { PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const mConfig = require("../messageConfig.json");
 const moderationSchema = require("../schemas/moderation");
 
@@ -49,9 +45,9 @@ module.exports = {
         }
       }
 
-      const banDuration = parseDuration(muteTime);
+      const muteDuration = parseDuration(muteTime);
 
-      const banEndTime = Math.floor((Date.now() + banDuration) / 1000);
+      const muteEndTime = Math.floor((Date.now() + muteDuration) / 1000);
 
       const bEmbed = new EmbedBuilder()
         .setAuthor({
@@ -59,38 +55,15 @@ module.exports = {
           iconURL: targetMember.user.displayAvatarURL({ dynamic: true }),
         })
         .setDescription(
-          `${targetMember.user.username} à été banni jusqu'à <t:${banEndTime}:R> pour la raison suivante : ${muteReason}`
+          `${targetMember.user.username} à été exclu jusqu'à <t:${muteEndTime}:R> pour la raison suivante : ${muteReason}`
         );
 
       await interaction.deferReply({ ephemeral: false });
 
-      targetMember.ban({
-        reason: `BAN TEMPORAIRE : ${reason}`,
-        deleteMessageSeconds: 604800,
+      targetMember.timeout({
+        timeout: muteDuration,
+        reason: `EXPULSION TEMPORAIRE : ${reason}`,
       });
-
-      const maxTimeoutDuration = 2147483647;
-
-      if (banDuration <= maxTimeoutDuration) {
-        setTimeout(async () => {
-          await guild.members.unban(targetMember.id);
-        }, banDuration);
-      } else {
-        const remainingBanDuration = banDuration - maxTimeoutDuration;
-        setTimeout(async () => {
-          await guild.members.unban(targetMember.id);
-        }, maxTimeoutDuration);
-
-        setTimeout(async () => {
-          await guild.members.unban(targetMember.id);
-        }, remainingBanDuration);
-      }
-
-      const followUpMessage = await interaction.followUp({
-        embeds: [bEmbed],
-      });
-
-      const followUpMessageId = followUpMessage.id;
 
       let dataGD = await moderationSchema.findOne({ GuildID: guildId });
       const { LogChannelID } = dataGD;
@@ -98,21 +71,18 @@ module.exports = {
 
       const lEmbed = new EmbedBuilder()
         .setColor(mConfig.embedColorCancel)
-        .setTitle("`⛔` Utilisateur banni temporairement")
+        .setTitle("`⛔` Utilisateur exclu temporairement")
         .setAuthor({
           name: targetMember.user.username,
           iconURL: targetMember.user.displayAvatarURL({ dynamic: true }),
         })
-        .setDescription(
-          `\`💡\` Pour révoquer le bannisement utilisez : \`/unban ${targetMember.user.id}\``
-        )
         .addFields(
           {
-            name: "Banni temporairement par",
+            name: "Exclu temporairement par",
             value: `<@${user.id}>`,
             inline: true,
           },
-          { name: "Fin du ban", value: `<t:${banDuration}:R>` },
+          { name: "Fin de l'exclusion", value: `<t:${muteDuration}:R>` },
           { name: "Raison", value: `${reason}`, inline: true }
         )
         .setFooter({
@@ -125,7 +95,7 @@ module.exports = {
       rEmbed
         .setColor(mConfig.embedColorSuccess)
         .setDescription(
-          `\`✅\` ${targetMember.user.username} à été banni temporairement avec succès.`
+          `\`✅\` ${targetMember.user.username} à été exclu temporairement avec succès.`
         );
 
       message.edit({ embeds: [rEmbed] });

@@ -1,8 +1,4 @@
-const {
-  PermissionFlagsBits,
-  EmbedBuilder,
-  InteractionResponse,
-} = require("discord.js");
+const { PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const mConfig = require("../messageConfig.json");
 const moderationSchema = require("../schemas/moderation");
 
