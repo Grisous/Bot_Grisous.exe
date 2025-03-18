@@ -55,17 +55,20 @@ module.exports = {
     }
     const moderationButtons = new ActionRowBuilder().setComponents(
       new ButtonBuilder()
-        .setCustomId("banBtn")
-        .setLabel("Bannir du sreveur")
-        .setStyle(ButtonStyle.Danger),
-      new ButtonBuilder()
-        .setCustomId("kickBtn")
+        .setCustomId("punishmentBtn")
+        .setLabel("Modération")
         .setStyle(ButtonStyle.Danger)
-        .setLabel("kick"),
+        .setEmoji("📛"),
+      new ButtonBuilder()
+        .setCustomId("otherBtn")
+        .setStyle(ButtonStyle.Primary)
+        .setLabel("Autres actions")
+        .setEmoji("📋"),
       new ButtonBuilder()
         .setCustomId("cancelBtn")
         .setStyle(ButtonStyle.Secondary)
         .setLabel("Annuler")
+        .setEmoji("❌")
     );
     rEmbed
       .setAuthor({
