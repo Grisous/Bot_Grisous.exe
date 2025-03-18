@@ -41,68 +41,94 @@ module.exports = {
     const subcmd = options.getSubcommand();
     if (!["configure", "retirer"].includes(subcmd)) return;
 
-    const rEmbed = new EmbedBuilder()
-      .setFooter({
-        iconURL: `${client.user.displayAvatarURL({dynamic: true})}`,
-        text: `${client.user.username} - Système de modération avancé`
-      });
-    
+    const rEmbed = new EmbedBuilder().setFooter({
+      iconURL: `${client.user.displayAvatarURL({ dynamic: true })}`,
+      text: `${client.user.username} - Système de modération avancé`,
+    });
+
     switch (subcmd) {
-      case "configure": 
+      case "configure":
         const loggingChannel = options.getChannel("logging_channel");
 
-        let dataGD = await moderationSchema.findOne({ GuildID: guildId});
+        let dataGD = await moderationSchema.findOne({ GuildID: guildId });
         if (!dataGD) {
           rEmbed
-           .setColor(mConfig.embedColorWarning)
-           .setDescription("'\'⌛\' Nouveau serveur détecté: configuration du système de modération avancé...");
+            .setColor(mConfig.embedColorWarning)
+            .setDescription(
+              "''⌛' Nouveau serveur détecté: configuration du système de modération avancé..."
+            );
 
-          await interaction.reply({ embeds: [rEmbed], fetchReply: true, ephemeral: true});
+          await interaction.reply({
+            embeds: [rEmbed],
+            fetchReply: true,
+            ephemeral: true,
+          });
 
           dataGD = new moderationSchema({
             GuildID: guildId,
-            LogChannelID: loggingChannel.id
+            LogChannelID: loggingChannel.id,
           });
           dataGD.save();
 
           rEmbed
-           .setColor(mConfig.embedColorSuccess)
-           .setDescription("'\'✅\' Sytème de modération avancé configuré avec succès")
-           .addFields(
-            { name: "Logs channel", value: `${loggingChannel}`, inline: true },
-           );
+            .setColor(mConfig.embedColorSuccess)
+            .setDescription(
+              "''✅' Sytème de modération avancé configuré avec succès"
+            )
+            .addFields({
+              name: "Logs channel",
+              value: `${loggingChannel}`,
+              inline: true,
+            });
 
           setTimeout(() => {
-            interaction.editReply({ embeds: [rEmbed], ephemeral: true});
+            interaction.editReply({ embeds: [rEmbed], ephemeral: true });
           }, 2000);
         } else {
-          await moderationSchema.findOneAndUpdate({ GuildID: guildId}, {LogChannelID: loggingChannel.id});
+          await moderationSchema.findOneAndUpdate(
+            { GuildID: guildId },
+            { LogChannelID: loggingChannel.id }
+          );
 
           rEmbed
-           .setColor(mConfig.embedColorSuccess)
-           .setDescription("'\'✅\' Système de modération avancé mis à jour avec succès")
-           .addFields(
-            { name: "Logs channel", value: `${loggingChannel}`, inline: true },
-           );
+            .setColor(mConfig.embedColorSuccess)
+            .setDescription(
+              "''✅' Système de modération avancé mis à jour avec succès"
+            )
+            .addFields({
+              name: "Logs channel",
+              value: `${loggingChannel}`,
+              inline: true,
+            });
 
-          interaction.reply({ embeds: [rEmbed], fetchReply: true, ephemeral: true});
-        };
+          interaction.reply({
+            embeds: [rEmbed],
+            fetchReply: true,
+            ephemeral: true,
+          });
+        }
         break;
       case "retirer":
-        const removed = await moderationSchema.findOneAndDelete({ GuildID: guildId});
+        const removed = await moderationSchema.findOneAndDelete({
+          GuildID: guildId,
+        });
 
         if (removed) {
           rEmbed
-           .setColor(mConfig.embedColorSuccess)
-           .setDescription("\'✅\' Système de modération avancé supprimé avec succès");
+            .setColor(mConfig.embedColorSuccess)
+            .setDescription(
+              "'✅' Système de modération avancé supprimé avec succès"
+            );
         } else {
           rEmbed
-           .setColor(mConfig.embedColorError)
-           .setDescription("\'❌\' Impossible de trouver le système de modération avancé. Utilisez \`/moderatesystem configure\` pour démarrer la configuration du système de modération avancé du serveur.");
+            .setColor(mConfig.embedColorError)
+            .setDescription(
+              "'❌' Impossible de trouver le système de modération avancé. Utilisez `/moderatesystem configure` pour démarrer la configuration du système de modération avancé du serveur."
+            );
         }
 
-        interaction.reply({ embeds: [rEmbed], ephemeral: true});
+        interaction.reply({ embeds: [rEmbed], ephemeral: true });
         break;
-    };
+    }
   },
 };
