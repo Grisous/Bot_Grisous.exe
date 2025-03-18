@@ -84,6 +84,7 @@ module.exports = {
             amount = j;
             break;
           }
+          j++;
         }
         const multimsg = amount === (1 || 0) ? "message" : "messages";
 
@@ -108,6 +109,7 @@ module.exports = {
             amount = j;
             break;
           }
+          j++;
         }
         const multimsg = amount === (1 || 0) ? "message" : "messages";
 
