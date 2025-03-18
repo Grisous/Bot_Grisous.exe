@@ -1,7 +1,6 @@
 const { PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const moderationSchema = require("../schemas/moderation");
 const mConfig = require("../messageConfig.json");
-const { userPermissions } = require("../commands/admin/moderatesystem");
 
 module.exports = {
   customId: "banBtn",
@@ -46,7 +45,7 @@ module.exports = {
           message.edit({ embeds: [rEmbed] });
           setTimeout(() => {
             message.delete();
-          }, 2000);
+          }, 10000);
           return;
         }
         return reason;
@@ -58,7 +57,7 @@ module.exports = {
         message.edit({ embeds: [rEmbed] });
         setTimeout(() => {
           message.delete();
-        }, 2000);
+        }, 10000);
         return;
       });
     const reasonObj = reasonCollector?.first();
@@ -109,6 +108,6 @@ module.exports = {
     message.edit({ embeds: [rEmbed] });
     setTimeout(() => {
       message.delete();
-    }, 2000);
+    }, 10000);
   },
 };
