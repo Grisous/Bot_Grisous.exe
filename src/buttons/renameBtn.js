@@ -11,13 +11,13 @@ module.exports = {
     const { message, channel, guildId, guild, user } = interaction;
 
     const embedAuthor = message.embeds[0].author;
-    const targetMember = await guild.members;
-    const oldUsername = targetMember.user.username
-      .fetch({
-        query: embedAuthor.name,
-        limit: 1,
-      })
-      .first();
+    const fetchMembers = await guild.members.fetch({
+      query: embedAuthor.name,
+      limit: 1,
+    });
+    const targetMember = fetchMembers.first();
+    const oldUsername = targetMember.user.username;
+
     const tagline = Math.floor(Math.random() * 1000) + 1;
 
     const rEmbed = new EmbedBuilder()

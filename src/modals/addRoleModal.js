@@ -10,10 +10,11 @@ module.exports = {
 
     try {
       const embedAuthor = message.embeds[0].author;
-      const targetMember = await guild.members.fetch({
+      const fetchMembers = await guild.members.fetch({
         query: embedAuthor.name,
         limit: 1,
       });
+      const targetMember = fetchMembers.first();
 
       const roleId = fields.getTextInputValue("role_id");
       const role = guild.roles.cache.get(roleId);
