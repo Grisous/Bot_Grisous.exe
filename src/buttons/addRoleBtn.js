@@ -21,7 +21,7 @@ module.exports = {
             new TextInputBuilder()
               .setLabel("Role ID")
               .setCustomId("role_id")
-              .setPlaceholderText(
+              .setPlaceholder(
                 "Exemple : 1351152819075547172 \n Vous pouvez le récupérer uniquement avec le mode développeur activé"
               )
               .setStyle(TextInputStyle.Short)

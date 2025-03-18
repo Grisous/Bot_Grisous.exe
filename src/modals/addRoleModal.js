@@ -1,9 +1,9 @@
 const { PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 
 module.exports = {
-  customId: "addrole_modal",
-  userPermissions: [PermissionFlagsBits.MANAGE_ROLES],
-  botPermissions: [PermissionFlagsBits.MANAGE_ROLES],
+  customId: "addroleMdl",
+  userPermissions: [PermissionFlagsBits.ManageRoles],
+  botPermissions: [PermissionFlagsBits.ManageRoles],
 
   run: async (client, interaction) => {
     const { message, channel, guildId, guild, user, fields } = interaction;
@@ -34,7 +34,7 @@ module.exports = {
         console.log(err);
       });
 
-      return interaction.reply({ embeds: [addedRole], components: [] });
+      return interaction.editReply({ embeds: [addedRole], components: [] });
     } catch (error) {
       console.error(error);
       await interaction.reply({

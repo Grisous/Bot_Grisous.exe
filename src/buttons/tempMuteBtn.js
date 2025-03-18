@@ -21,7 +21,7 @@ module.exports = {
             new TextInputBuilder()
               .setLabel("Durée")
               .setCustomId("tempmuteTime")
-              .setPlaceholderText(
+              .setPlaceholder(
                 "Durée en minute par défaut, `h` pour heure, `j` pour jour, `m` pour mois"
               )
               .setStyle(TextInputStyle.Short)
@@ -30,9 +30,7 @@ module.exports = {
             new TextInputBuilder()
               .setLabel("Raison")
               .setCustomId("tempmuteReason")
-              .setPlaceholderText(
-                "Indiquez la raison de l'expulsion temporaire"
-              )
+              .setPlaceholder("Indiquez la raison de l'expulsion temporaire")
               .setStyle(TextInputStyle.Paragraph)
           )
         );

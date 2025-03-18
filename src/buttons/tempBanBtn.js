@@ -21,7 +21,7 @@ module.exports = {
             new TextInputBuilder()
               .setLabel("Durée")
               .setCustomId("tempbanTime")
-              .setPlaceholderText(
+              .setPlaceholder(
                 "Durée en minute par défaut, `h` pour heure, `j` pour jour, `m` pour mois"
               )
               .setStyle(TextInputStyle.Short)
@@ -30,9 +30,7 @@ module.exports = {
             new TextInputBuilder()
               .setLabel("Raison")
               .setCustomId("tempbanReason")
-              .setPlaceholderText(
-                "Indiquez la raison du bannissement temporaire"
-              )
+              .setPlaceholder("Indiquez la raison du bannissement temporaire")
               .setStyle(TextInputStyle.Paragraph)
           )
         );

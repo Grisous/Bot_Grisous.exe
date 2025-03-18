@@ -2,7 +2,7 @@ const {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonStyle,
-  Component,
+  ButtonBuilder,
 } = require("discord.js");
 
 module.exports = {
