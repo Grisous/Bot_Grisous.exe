@@ -20,7 +20,12 @@ module.exports = {
 
     await interaction.deferReply({ ephemeral: true });
 
-    const tagline = Math.floor(Math.random() * 1000) + 1;
+    const now = new Date();
+    const tagline = now.toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
 
     const rEmbed = new EmbedBuilder()
       .setColor(mConfig.embedColorCancel)

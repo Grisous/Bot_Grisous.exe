@@ -6,10 +6,24 @@ module.exports = {
   botPermissions: [],
 
   run: async (client, interaction) => {
-    await interaction.message.delete();
-    await interaction.reply({
-      content: "Commande annulée",
-      ephemeral: true,
-    });
+    try {
+      await interaction.message.delete();
+      await interaction.reply({
+        content: "Commande annulée",
+        ephemeral: true,
+      });
+      setTimeout(() => {
+        interaction.deleteReply();
+      }, 10000);
+    } catch (error) {
+      await interaction.deferReply({ ephemeral: true });
+      await interaction.editReply({
+        content: "Commande annulée",
+        ephemeral: true,
+      });
+      setTimeout(() => {
+        interaction.deleteReply();
+      }, 10000);
+    }
   },
 };
