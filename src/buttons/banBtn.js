@@ -88,7 +88,7 @@ module.exports = {
         iconURL: targetMember.user.displayAvatarURL({ dynamic: true }),
       })
       .setDescription(
-        `\`💡\` Pour révoquer le bannisement utilisez : \`/unban ${targetMember.user.id}\``
+        `\`💡\` Pour révoquer le bannisement utilisez : \`/unban user_id:${targetMember.user.id}\``
       )
       .addFields(
         { name: "Banni par", value: `<@${user.id}>`, inline: true },
