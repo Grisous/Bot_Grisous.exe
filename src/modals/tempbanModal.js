@@ -22,41 +22,32 @@ module.exports = {
       const banReason = fields.getTextInputValue("tempbanReason");
 
       function parseDuration(durationString) {
-        const regex = /(\d+)([hmd])/g;
-        let duration = 0;
-        let match;
+        const regex = /^(\d+)([hmd])?$/; // Match only a single value with optional unit
+        const match = durationString.match(regex);
 
-        while ((match = regex.exec(durationString))) {
-          const value = parseInt(match[1]);
-          const unit = match[2];
-          console.log("unit" + unit);
+        if (!match) return null; // Invalid format
 
-          switch (unit) {
-            case "h":
-              duration += value * 60 * 60 * 1000;
-              break;
-            case "d":
-              duration += value * 24 * 60 * 60 * 1000;
-              break;
-            case "m":
-              duration += value * 30 * 24 * 60 * 60 * 1000;
-              break;
-            case null:
-              duration += value * 60 * 1000;
-          }
+        const value = parseInt(match[1], 10);
+        const unit = match[2] || "default"; // Use "default" if no unit is provided
+
+        switch (unit) {
+          case "h":
+            return value * 60 * 60 * 1000; // Hours → ms
+          case "d":
+            return value * 24 * 60 * 60 * 1000; // Days → ms
+          case "m":
+            return value * 30 * 24 * 60 * 60 * 1000; // Months (approx.) → ms
+          case "default": // No unit → Treat as minutes
+            return value * 60 * 1000;
+          default:
+            return null; // Should never happen due to regex
         }
-        if (duration === 0) throw "Bah jsp j'passe pas dans le while";
-        return duration;
       }
 
       const banDuration = parseDuration(banTime);
 
       const banEndTime = Math.floor((Date.now() + banDuration) / 1000);
-      console.log(
-        `${banTime}\nparse : ${parseDuration(
-          banTime
-        )} \n end time : ${Math.floor((Date.now() + banDuration) / 1000)}`
-      );
+
       await interaction.deferReply({ ephemeral: false });
 
       const bEmbed = new EmbedBuilder()
@@ -112,7 +103,7 @@ module.exports = {
             value: `<@${user.id}>`,
             inline: true,
           },
-          { name: "Fin du ban", value: `<t:${banDuration}:R>` },
+          { name: "Fin du ban", value: `<t:${banEndTime}:R>` },
           { name: "Raison", value: `${banReason}`, inline: true }
         )
         .setFooter({
@@ -122,15 +113,15 @@ module.exports = {
 
       loggingChannel.send({ embeds: [lEmbed] });
 
-      lEmbed
+      bEmbed
         .setColor(mConfig.embedColorSuccess)
         .setDescription(
           `\`✅\` ${targetMember.user.username} à été banni temporairement avec succès.`
         );
 
-      interaction.editReply({ embeds: [lEmbed] });
+      interaction.editReply({ embeds: [bEmbed], ephemeral: true });
       setTimeout(() => {
-        message.delete();
+        interaction.deleteReply();
       }, 10000);
     } catch (error) {
       console.error(error);

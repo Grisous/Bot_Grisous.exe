@@ -47,7 +47,7 @@ module.exports = {
             .setDescription("`❌` Action de modération annulée.");
           interaction.editReply({ embeds: [rEmbed] });
           setTimeout(() => {
-            message.delete();
+            interaction.deleteReply();
           }, 10000);
           return;
         }
@@ -59,7 +59,7 @@ module.exports = {
           .setDescription("`❌` Action de modération annulée.");
         interaction.editReply({ embeds: [rEmbed] });
         setTimeout(() => {
-          message.delete();
+          interaction.deleteReply();
         }, 10000);
         return;
       });
@@ -107,7 +107,7 @@ module.exports = {
 
     interaction.editReply({ embeds: [rEmbed] });
     setTimeout(() => {
-      message.delete();
+      interaction.deleteReply();
     }, 10000);
   },
 };

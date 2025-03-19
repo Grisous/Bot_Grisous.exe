@@ -22,29 +22,26 @@ module.exports = {
       const muteReason = fields.getTextInputValue("tempmuteReason");
 
       function parseDuration(durationString) {
-        const regex = /(\d+)([hmd])/g;
-        let duration = 0;
-        let match;
+        const regex = /^(\d+)([hmd])?$/; // Match only a single value with optional unit
+        const match = durationString.match(regex);
 
-        while ((match = regex.exec(durationString))) {
-          const value = parseInt(match[1]);
-          const unit = match[2];
+        if (!match) return null; // Invalid format
 
-          switch (unit) {
-            case "h":
-              duration += value * 60 * 60 * 1000;
-              break;
-            case "d":
-              duration += value * 24 * 60 * 60 * 1000;
-              break;
-            case "m":
-              duration += value * 30 * 24 * 60 * 60 * 1000;
-              break;
-            default:
-              duration += value * 60 * 1000;
-          }
+        const value = parseInt(match[1], 10);
+        const unit = match[2] || "default"; // Use "default" if no unit is provided
+
+        switch (unit) {
+          case "h":
+            return value * 60 * 60 * 1000; // Hours → ms
+          case "d":
+            return value * 24 * 60 * 60 * 1000; // Days → ms
+          case "m":
+            return value * 30 * 24 * 60 * 60 * 1000; // Months (approx.) → ms
+          case "default": // No unit → Treat as minutes
+            return value * 60 * 1000;
+          default:
+            return null; // Should never happen due to regex
         }
-        return duration;
       }
 
       const muteDuration = parseDuration(muteTime);
@@ -62,10 +59,10 @@ module.exports = {
 
       await interaction.deferReply({ ephemeral: false });
 
-      targetMember.timeout({
-        timeout: muteDuration,
-        reason: `EXPULSION TEMPORAIRE : ${muteReason}`,
-      });
+      targetMember.timeout(
+        muteDuration,
+        `EXPULSION TEMPORAIRE : ${muteReason}`
+      );
 
       let dataGD = await moderationSchema.findOne({ GuildID: guildId });
       const { LogChannelID } = dataGD;
@@ -84,7 +81,7 @@ module.exports = {
             value: `<@${user.id}>`,
             inline: true,
           },
-          { name: "Fin de l'exclusion", value: `<t:${muteDuration}:R>` },
+          { name: "Fin de l'exclusion", value: `<t:${muteEndTime}:R>` },
           { name: "Raison", value: `${muteReason}`, inline: true }
         )
         .setFooter({
@@ -94,15 +91,15 @@ module.exports = {
 
       loggingChannel.send({ embeds: [lEmbed] });
 
-      rEmbed
+      bEmbed
         .setColor(mConfig.embedColorSuccess)
         .setDescription(
           `\`✅\` ${targetMember.user.username} à été exclu temporairement avec succès.`
         );
 
-      message.edit({ embeds: [rEmbed] });
+      interaction.editReply({ embeds: [bEmbed], ephemeral: true });
       setTimeout(() => {
-        message.delete();
+        interaction.deleteReply();
       }, 10000);
     } catch (error) {
       console.error(error);
