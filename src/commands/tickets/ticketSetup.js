@@ -14,38 +14,39 @@ module.exports = {
     .setName("ticket-setup")
     .setDescription("Configurer le système de ticket")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .addChannelOption((option) =>
-      option
+    .addChannelOption((o) =>
+      o
         .setName("ticket-feedback")
         .setDescription("Le channel où les tickets seront envoyés")
         .addChannelTypes(ChannelType.GuildText)
         .setRequired(true)
     )
-    .addChannelOption((option) =>
-      option
+    .addChannelOption((o) =>
+      o
         .setName("ticket-channel")
         .setDescription("Le channel où les tickets seront créés")
         .addChannelTypes(ChannelType.GuildText)
         .setRequired(true)
     )
-    .addRoleOption((option) =>
-      option
+    .addRoleOption((o) =>
+      o
         .setName("staff-role")
         .setDescription("Le role staff qui aura accès aux tickets")
         .setRequired(true)
     )
-    .addStringOption((option) =>
-      option
+    .addStringOption((o) =>
+      o
         .setName("ticket-type")
         .setDescription(
-          "Le type de ticket que vous voulez utiliser. \nModal signifie que l'utilisateur recevra une fenêtre demandant des informations supplémentaires avant la création du ticket. \nButton signifie que lorsque l'utilisateur appuyera sur le bouton, le ticket sera directement créé."
+          "Le type de ticket que vous voulez utiliser. (modal = ajout d'info avant la création)"
         )
         .addChoices(
           { name: "Modal", value: "modal" },
           { name: "Bouton", value: "button" }
         )
         .setRequired(true)
-    ),
+    )
+    .toJSON(),
   userPermissions: [PermissionFlagsBits.Administrator],
   botPermissions: [],
   run: async (client, interaction) => {

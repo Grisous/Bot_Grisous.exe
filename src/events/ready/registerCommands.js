@@ -1,6 +1,6 @@
 require("colors");
 
-const {testServerId} = require("../../config.json");
+const { testServerId } = require("../../config.json");
 const commandComparing = require("../../utils/commandComparing");
 const getApplicationCommands = require("../../utils/getApplicationCommands");
 const getLocalCommands = require("../../utils/getLocalCommands");
@@ -13,9 +13,9 @@ module.exports = async (client) => {
     ]);
 
     for (const localCommand of localCommands) {
-      const {data, deleted} = localCommand;
+      const { data, deleted } = localCommand;
       const {
-        name : commandName,
+        name: commandName,
         description: comandDescription,
         options: commandOptions,
       } = data;
@@ -27,12 +27,14 @@ module.exports = async (client) => {
       if (deleted) {
         if (existingCommand) {
           await applicationCommands.delete(existingCommand.id);
-          console.log(`[COMMAND REGISTERY] - Application command ${commandName} has been deleted.`
-            .red
+          console.log(
+            `[COMMAND REGISTERY] - Application command ${commandName} has been deleted.`
+              .red
           );
         } else {
-          console.log(`[COMMAND REGISTERY] - Application command ${commandName} has been skipped, since property "deleted" is set to "true".`
-            .grey
+          console.log(
+            `[COMMAND REGISTERY] - Application command ${commandName} has been skipped, since property "deleted" is set to "true".`
+              .grey
           );
         }
       } else if (existingCommand) {
@@ -42,8 +44,9 @@ module.exports = async (client) => {
             description: comandDescription,
             options: commandOptions,
           });
-          console.log(`[COMMAND REGISTERY] - Application command ${commandName} has been edited.`
-            .yellow
+          console.log(
+            `[COMMAND REGISTERY] - Application command ${commandName} has been edited.`
+              .yellow
           );
         }
       } else {
@@ -52,14 +55,16 @@ module.exports = async (client) => {
           description: comandDescription,
           options: commandOptions,
         });
-        console.log(`[COMMAND REGISTERY] - Application command ${commandName} has been registered.`
-          .green
+        console.log(
+          `[COMMAND REGISTERY] - Application command ${commandName} has been registered.`
+            .green
         );
       }
     }
   } catch (error) {
-    console.log(`[ERROR] - An error occured inside the command registery:\n ${error}`
-      .bgRed
+    console.log(
+      `[ERROR] - An error occured inside the command registery:\n ${error}`
+        .bgRed
     );
   }
-}
+};

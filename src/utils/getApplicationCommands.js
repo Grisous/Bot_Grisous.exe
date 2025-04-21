@@ -10,4 +10,4 @@ module.exports = async (client, guildId) => {
 
   await applicationCommands.fetch();
   return applicationCommands;
-}
+};
