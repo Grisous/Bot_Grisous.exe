@@ -39,17 +39,17 @@ module.exports = {
           .setLabel("Bannir du sreveur")
           .setStyle(ButtonStyle.Danger),
         new ButtonBuilder()
+          .setCustomId("tempbanBtn")
+          .setLabel("Bannir temporairement")
+          .setStyle(ButtonStyle.Danger),
+        new ButtonBuilder()
           .setCustomId("kickBtn")
           .setStyle(ButtonStyle.Danger)
           .setLabel("kick"),
         new ButtonBuilder()
           .setCustomId("tempmuteBtn")
           .setLabel("Exclure (Mute) temporairement")
-          .setStyle(ButtonStyle.Danger),
-        new ButtonBuilder()
-          .setCustomId("tempbanBtn")
-          .setLabel("Bannir temporairement")
-          .setStyle(ButtonStyle.Danger),
+          .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
           .setCustomId("cancelBtn")
           .setLabel("Annuler")

@@ -41,7 +41,7 @@ module.exports = {
         new ButtonBuilder()
           .setCustomId("addroleBtn")
           .setLabel("Ajouter un role")
-          .setStyle(ButtonStyle.Danger),
+          .setStyle(ButtonStyle.Success),
         new ButtonBuilder()
           .setCustomId("cancelBtn")
           .setLabel("Annuler")

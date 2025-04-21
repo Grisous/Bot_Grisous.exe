@@ -40,7 +40,7 @@ module.exports = {
           case "default": // No unit → Treat as minutes
             return value * 60 * 1000;
           default:
-            return null; // Should never happen due to regex
+            return null; // Invalid unit
         }
       }
 
